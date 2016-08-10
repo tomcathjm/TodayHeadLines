@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#38d3a9"
+                android:padding="10dp"
+                android:text="绘制Android机器人"
+                android:textColor="#333333" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#38d3a9"
+                android:padding="10dp"
+                android:text="手机震动"
+                android:textColor="#333333" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#38d3a9"
+                android:padding="10dp"
+                android:text="拖动的文字"
+                android:textColor="#333333" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#38d3a9"
+                android:padding="10dp"
+                android:text="ExpandableListView"
+                android:textColor="#333333" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#38d3a9"
+                android:padding="10dp"
+                android:text="压缩图片显示、缓存"
+                android:textColor="#333333" />
+
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#38d3a9"
+                android:padding="10dp"
+                android:text="测试联网下载"
+                android:textColor="#333333" />
+            <Button
+                android:id="@+id/button7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#38d3a9"
+                android:padding="10dp"
+                android:text="下拉刷新ScrollView"
+                android:textColor="#333333" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

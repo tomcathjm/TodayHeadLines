@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/NewNBA/NewNBA.iml" filepath="$PROJECT_DIR$/NewNBA/NewNBA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StudioProject.iml" filepath="$PROJECT_DIR$/StudioProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TodayHeadLines/TodayHeadLines.iml" filepath="$PROJECT_DIR$/TodayHeadLines/TodayHeadLines.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
+    </modules>
+  </component>
+</project>
