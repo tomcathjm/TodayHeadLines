@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <EditText
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/home" />
+        android:hint="测试Fragment 是否会重新加载数据"
+        android:layout_height="50dp" />
 
 </LinearLayout>
