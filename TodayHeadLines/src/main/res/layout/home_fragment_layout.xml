@@ -5,13 +5,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.todayheadlines.widget.ViewPagerIndicator
-        android:id="@+id/vp_indicator"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/text_red"
-        android:orientation="horizontal"
-        hjm:visible_tab_count="5" />
+        android:layout_height="wrap_content">
+
+        <com.todayheadlines.widget.ViewPagerIndicator
+            android:id="@+id/vp_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/text_red"
+            android:orientation="horizontal"
+            hjm:visible_tab_count="5" />
+
+        <LinearLayout
+            android:id="@+id/add"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:background="#99FF0000"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/add" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

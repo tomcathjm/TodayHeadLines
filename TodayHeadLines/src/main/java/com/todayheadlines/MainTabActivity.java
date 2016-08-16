@@ -1,4 +1,4 @@
-package com.todayheadlines.activity;
+package com.todayheadlines;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.todayheadlines.R;
 import com.todayheadlines.base.BaseFragmentActivity;
 import com.todayheadlines.fragment.FollowFragment;
 import com.todayheadlines.fragment.HomeFragment;
@@ -17,6 +16,7 @@ import com.todayheadlines.fragment.VideoFragment;
 import java.util.HashMap;
 import java.util.Set;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -24,10 +24,15 @@ import butterknife.ButterKnife;
  */
 public class MainTabActivity extends BaseFragmentActivity implements RadioGroup.OnCheckedChangeListener {
 
+    @Bind(R.id.radio)
     RadioGroup radioGroup;
+    @Bind(R.id.home)
     RadioButton home;
+    @Bind(R.id.video)
     RadioButton video;
+    @Bind(R.id.follow)
     RadioButton follow;
+    @Bind(R.id.mine)
     RadioButton mine;
 
     HashMap<Integer, Fragment> map = new HashMap<Integer, Fragment>();
@@ -37,13 +42,6 @@ public class MainTabActivity extends BaseFragmentActivity implements RadioGroup.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maintab_activiy_layout);
-
-        radioGroup = (RadioGroup) findViewById(R.id.radio);
-        home = (RadioButton) findViewById(R.id.home);
-        video = (RadioButton) findViewById(R.id.video);
-        follow = (RadioButton) findViewById(R.id.follow);
-        mine = (RadioButton) findViewById(R.id.mine);
-
         ButterKnife.bind(this);
         if (savedInstanceState == null){
             //初始化数据

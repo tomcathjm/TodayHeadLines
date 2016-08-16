@@ -1,5 +1,6 @@
 package com.todayheadlines.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,8 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.todayheadlines.R;
+import com.todayheadlines.activity.AddTabActivity;
 import com.todayheadlines.base.BaseFragment;
 import com.todayheadlines.fragment.home.BeiJing;
 import com.todayheadlines.fragment.home.KeJi;
@@ -25,14 +28,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.OnClick;
+
 /**
  * Created by Administrator on 2016/8/5.
  */
 public class HomeFragment extends BaseFragment {
 
+    private final int ADD_TAB_REQUEST_CODE = 1;
+
     private ViewPager viewPager;
     private ViewPagerIndicator vp_indicator;
     private FragmentPagerAdapter adapter;
+    private LinearLayout add;
 
     // 初始 Tab 内容
     private List<String> mTitles = Arrays.asList("推荐", "热点", "北京", "视频", "头条号", "社会", "科技", "汽车", "图片");
@@ -41,7 +49,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_fragment_layout, container,false);
+        return inflater.inflate(R.layout.home_fragment_layout, container, false);
     }
 
     @Override
@@ -50,7 +58,13 @@ public class HomeFragment extends BaseFragment {
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         vp_indicator = (ViewPagerIndicator) view.findViewById(R.id.vp_indicator);
+        add = (LinearLayout) view.findViewById(R.id.add);
 
+    }
+
+    @OnClick(R.id.add)
+    void add() {
+        startActivityForResult(new Intent(getActivity(), AddTabActivity.class),ADD_TAB_REQUEST_CODE);
     }
 
     @Override
