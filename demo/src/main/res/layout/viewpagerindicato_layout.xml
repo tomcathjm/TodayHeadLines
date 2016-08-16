@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/white"
+        hjman:visible_tab_count="5"
         android:orientation="horizontal"/>
 
     <android.support.v4.view.ViewPager

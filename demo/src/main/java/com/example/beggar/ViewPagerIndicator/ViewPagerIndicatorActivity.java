@@ -5,9 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-
 import com.example.beggar.myapplication.R;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +40,7 @@ public class ViewPagerIndicatorActivity extends FragmentActivity {
          * 第二个参数：默认的选中的 Tab
          * 第三个参数：默认一屏显示的 Tab 的个数
          */
-        mIndicator.setViewPager(viewpager,0,4);
+        mIndicator.setViewPager(viewpager,0);
         mIndicator.setTabTitle(mTitles);
         viewpager.setAdapter(adapter);
 

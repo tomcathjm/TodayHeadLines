@@ -1,11 +1,9 @@
-package com.example.beggar.ViewPagerIndicator;
+package com.todayheadlines.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -17,7 +15,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.beggar.myapplication.R;
+import com.todayheadlines.R;
 
 import java.util.List;
 
@@ -32,35 +30,26 @@ public class ViewPagerIndicator extends LinearLayout {
     //画笔 tab 底下的固定的灰色固定条
     private Paint linePaint;
 
-    //构建三角形
-    private Path mPath;
 
-    //三角形宽度
-    private int mTriangleWidth;
-
-    //三角形高度
-    private int mTriangleHeight;
-
-    // 三角形宽度 和 Tab 长度的比例（可以对外暴露，让用户自定义）
-    private static final float RADIO_TRIANGLE_WIDTH = 1 / 6F;
-
-    //三角形初始化时在X轴上的平移距离
+    //初始化时在X轴上的平移距离
     private int mInitTranslationX;
 
-    //三角形平移的距离
+    //平移的距离
     private int mTranlationX;
 
     //可见tab 的长度
     private int mTabVisibleCount;
 
-    // tab 默认个数
-    private int COUNT_DEFAULT_TAB = 3;
-    //三角形的最大宽度
-    private final int DEMENSION_TRIANGLE_WIDTH = (int) (getSceenWidth() / 3 * RADIO_TRIANGLE_WIDTH);
+    //默认可见 Tab 个数
+    private final int DEFAULT_TAB_COUNT = 4;
 
-    //tab 文本的颜色
-    private static final String COLOR_TEXT = "#38D3A9";
-    private static final String COLOR_TEXT_TRUE = "#FF0000";
+
+    // tab 初始化文本的颜色
+    private static final String COLOR_TEXT_INIT = "#F7F7F7";
+    private static final int TEXT_SIZE_INIT = 16;
+    // tab 文本选中颜色
+    private static final String COLOR_TEXT_TRUE = "#FFFFFF";
+    private static final int TEXT_SIZE_TRUE = 18;
 
     public ViewPagerIndicator(Context context) {
         this(context, null);
@@ -72,56 +61,12 @@ public class ViewPagerIndicator extends LinearLayout {
         //获取可见tab的数量
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator);
 
-        mTabVisibleCount = typedArray.getInt(R.styleable.ViewPagerIndicator_visible_tab_count, COUNT_DEFAULT_TAB);
+        mTabVisibleCount = typedArray.getInt(R.styleable.ViewPagerIndicator_visible_tab_count, DEFAULT_TAB_COUNT);
         if (mTabVisibleCount <= 0) {
-            mTabVisibleCount = COUNT_DEFAULT_TAB;
+            mTabVisibleCount = DEFAULT_TAB_COUNT;
         }
 
         typedArray.recycle();
-
-        //初始化画笔
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.parseColor("#38D3A9"));
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setStrokeWidth(8);
-
-        linePaint = new Paint();
-        linePaint.setAntiAlias(true);
-        linePaint.setColor(Color.parseColor("#E6E6E6"));
-        linePaint.setStyle(Paint.Style.FILL);
-        linePaint.setStrokeWidth(8);
-
-    }
-
-    //是ViewGroup里子空间的宽高变化时都会回调这个方法
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        //初始化平移量
-        mInitTranslationX = w / mTabVisibleCount / 5;
-    }
-
-    /**
-     * 绘制指示器
-     * 可以在这个方法里面绘制任何指示器的样式
-     *
-     * @param canvas
-     */
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-
-        canvas.save();
-
-        // 绘制 指示器灰色背景线条
-        canvas.drawLine(0, getHeight(), getSceenWidth() + mTranlationX, getHeight(), linePaint);
-
-        // 绘制 绿色滑动指示条
-        canvas.drawLine(mInitTranslationX + mTranlationX, getHeight(), getSceenWidth() / mTabVisibleCount - mInitTranslationX + mTranlationX, getHeight(), mPaint);
-
-        canvas.restore();
-
-        super.dispatchDraw(canvas);
     }
 
     //指示器跟随手指滚动
@@ -142,27 +87,7 @@ public class ViewPagerIndicator extends LinearLayout {
 
     }
 
-
-    //在View中，当xml加载完成之后回调的方法
-    // 此方法是 在自定义控件里面写死tab时起作用
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
-        int cCount = getChildCount();
-        if (cCount == 0) return;
-
-        for (int i = 0; i < cCount; i++) {
-            View view = getChildAt(i);
-            LinearLayout.LayoutParams lp = (LayoutParams) view.getLayoutParams();
-            lp.weight = 0;
-            lp.width = getSceenWidth() / mTabVisibleCount;
-            view.setLayoutParams(lp);
-        }
-        setTabClickEvent();
-    }
-
-    //动态的添加 Tab
+    // 动态的添加 Tab
     public void setTabTitle(List<String> titles) {
         if (titles != null && titles.size() > 0)
             this.removeAllViews();
@@ -171,18 +96,16 @@ public class ViewPagerIndicator extends LinearLayout {
         }
         setTabClickEvent();
     }
-    //动态创建 TabT
-
-
+    // 动态创建 Tab
     private View getTab(String title) {
 
         TextView mTextView = new TextView(getContext());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lp.width = getSceenWidth() / mTabVisibleCount;
         mTextView.setText(title);
         mTextView.setGravity(Gravity.CENTER);
-        mTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        mTextView.setTextColor(Color.parseColor(COLOR_TEXT));
+        mTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        mTextView.setTextColor(Color.parseColor(COLOR_TEXT_INIT));
         mTextView.setLayoutParams(lp);
 
         return mTextView;
@@ -218,6 +141,7 @@ public class ViewPagerIndicator extends LinearLayout {
        this.position = position;
         if (view instanceof TextView) {
             ((TextView) view).setTextColor(Color.parseColor(COLOR_TEXT_TRUE));
+            ((TextView) view).setTextSize(TEXT_SIZE_TRUE);
         }
     }
 
@@ -230,7 +154,8 @@ public class ViewPagerIndicator extends LinearLayout {
     private void resetTextColor() {
         View view = getChildAt(position);
         if (view instanceof TextView) {
-            ((TextView) view).setTextColor(Color.parseColor(COLOR_TEXT));
+            ((TextView) view).setTextColor(Color.parseColor(COLOR_TEXT_INIT));
+            ((TextView) view).setTextSize(TEXT_SIZE_INIT);
         }
     }
 
@@ -249,7 +174,6 @@ public class ViewPagerIndicator extends LinearLayout {
      * 占用了用户对ViewPager的滑动接口，为了方便用户自定义这个接口事件，所以对外暴露出去一个接口
      * @param viewPager 绑定ViewPager
      * @param pos       默认选中的 tab 下标
-     * @param size      tab的个数 （对外暴露，直接在这个方法传进来，不需要在布局中设置）
      */
     public void setViewPager(ViewPager viewPager, int pos) {
 
@@ -258,7 +182,7 @@ public class ViewPagerIndicator extends LinearLayout {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // 三角形的偏移量
+                // 偏移量
                 scroll(position, positionOffset);
                 if (listener != null) {
                     listener.onPageScrolled(position, positionOffset, positionOffsetPixels);
