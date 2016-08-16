@@ -10,15 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/white"
-        android:orientation="horizontal">
-    </com.example.beggar.ViewPagerIndicator.ViewPagerIndicator>
+        android:orientation="horizontal"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:background="@color/white"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </android.support.v4.view.ViewPager>
+        android:layout_weight="1"/>
 </LinearLayout>

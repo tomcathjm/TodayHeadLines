@@ -37,8 +37,12 @@ public class ViewPagerIndicatorActivity extends FragmentActivity {
         ButterKnife.bind(this);
 
         initData();
-
-        mIndicator.setViewPager(viewpager,0,mTitles.size());
+        /**
+         * 第一个参数：绑定的 ViewPager 实例
+         * 第二个参数：默认的选中的 Tab
+         * 第三个参数：默认一屏显示的 Tab 的个数
+         */
+        mIndicator.setViewPager(viewpager,0,4);
         mIndicator.setTabTitle(mTitles);
         viewpager.setAdapter(adapter);
 
