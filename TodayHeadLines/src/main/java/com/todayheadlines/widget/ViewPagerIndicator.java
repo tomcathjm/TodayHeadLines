@@ -69,24 +69,6 @@ public class ViewPagerIndicator extends LinearLayout {
         typedArray.recycle();
     }
 
-    //指示器跟随手指滚动
-    public void scroll(int positon, float offset) {
-        int tabWidth = getWidth() / mTabVisibleCount;
-        //切换tab的平移量
-        mTranlationX = (int) (tabWidth * (positon + offset));
-
-        if (positon >= (mTabVisibleCount - 2) && positon < getChildCount() - 2 && offset > 0 && getChildCount() > mTabVisibleCount) {
-
-            if (mTabVisibleCount != 1) {
-                this.scrollTo((positon - (mTabVisibleCount - 2)) * tabWidth + (int) (tabWidth * offset), 0);
-            } else {
-                this.scrollTo(positon * tabWidth + (int) (tabWidth * offset), 0);
-            }
-        }
-        invalidate();
-
-    }
-
     // 动态的添加 Tab
     public void setTabTitle(List<String> titles) {
         if (titles != null && titles.size() > 0)
@@ -96,6 +78,7 @@ public class ViewPagerIndicator extends LinearLayout {
         }
         setTabClickEvent();
     }
+
     // 动态创建 Tab
     private View getTab(String title) {
 
@@ -124,10 +107,31 @@ public class ViewPagerIndicator extends LinearLayout {
                     @Override
                     public void onClick(View v) {
                         mViewPager.setCurrentItem(j);
+
                     }
                 });
             }
         }
+    }
+
+    //指示器跟随手指滚动
+    public void scroll(int positon, float offset) {
+        int tabWidth = getWidth() / mTabVisibleCount;
+        //切换tab的平移量
+        mTranlationX = (int) (tabWidth * (positon + offset));
+        if (positon >= (mTabVisibleCount - 2) && positon < getChildCount() - 2 && offset > 0 && getChildCount() > mTabVisibleCount) {
+
+            if (mTabVisibleCount != 1) {
+                this.scrollTo((positon - (mTabVisibleCount - 2)) * tabWidth + (int) (tabWidth * offset), 0);
+            } else {
+                this.scrollTo(positon * tabWidth + (int) (tabWidth * offset), 0);
+            }
+        }else{
+            if (positon == 1 || positon == 2){
+                this.scrollTo( 0 , 0);
+            }
+        }
+        invalidate();
     }
 
     /**
@@ -138,7 +142,7 @@ public class ViewPagerIndicator extends LinearLayout {
     private void highLightText(int position) {
         resetTextColor();
         View view = getChildAt(position);
-       this.position = position;
+        this.position = position;
         if (view instanceof TextView) {
             ((TextView) view).setTextColor(Color.parseColor(COLOR_TEXT_TRUE));
             ((TextView) view).setTextSize(TEXT_SIZE_TRUE);
@@ -151,6 +155,7 @@ public class ViewPagerIndicator extends LinearLayout {
      * @return
      */
     private int position;
+
     private void resetTextColor() {
         View view = getChildAt(position);
         if (view instanceof TextView) {
@@ -168,10 +173,12 @@ public class ViewPagerIndicator extends LinearLayout {
 
         return outMetrics.widthPixels;
     }
+
     private ViewPager mViewPager;
 
     /**
      * 占用了用户对ViewPager的滑动接口，为了方便用户自定义这个接口事件，所以对外暴露出去一个接口
+     *
      * @param viewPager 绑定ViewPager
      * @param pos       默认选中的 tab 下标
      */

@@ -135,7 +135,12 @@ public class ViewPagerIndicator extends LinearLayout {
             if (mTabVisibleCount != 1) {
                 this.scrollTo((positon - (mTabVisibleCount - 2)) * tabWidth + (int) (tabWidth * offset), 0);
             } else {
+
                 this.scrollTo(positon * tabWidth + (int) (tabWidth * offset), 0);
+            }
+        }else{
+            if (positon == 1 || positon == 2){
+                this.scrollTo( 0 , 0);
             }
         }
         invalidate();
@@ -201,6 +206,7 @@ public class ViewPagerIndicator extends LinearLayout {
                     @Override
                     public void onClick(View v) {
                         mViewPager.setCurrentItem(j);
+
                     }
                 });
             }
@@ -249,7 +255,6 @@ public class ViewPagerIndicator extends LinearLayout {
      * 占用了用户对ViewPager的滑动接口，为了方便用户自定义这个接口事件，所以对外暴露出去一个接口
      * @param viewPager 绑定ViewPager
      * @param pos       默认选中的 tab 下标
-     * @param size      tab的个数 （对外暴露，直接在这个方法传进来，不需要在布局中设置）
      */
     public void setViewPager(ViewPager viewPager, int pos) {
 
