@@ -1,6 +1,8 @@
 package com.todayheadlines.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -55,7 +57,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         vp_indicator = (ViewPagerIndicator) view.findViewById(R.id.vp_indicator);
         add = (LinearLayout) view.findViewById(R.id.add);

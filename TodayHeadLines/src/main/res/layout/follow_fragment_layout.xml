@@ -2,11 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/text_green"
     android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:text="@string/follow"
         android:gravity="center"
+        android:textColor="@color/text_red"
+        android:background="@color/text_green"
         android:layout_height="match_parent" />
 
 </LinearLayout>

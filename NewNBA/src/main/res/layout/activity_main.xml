@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#38D3A9"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <ScrollView
@@ -72,6 +74,7 @@
                 android:padding="10dp"
                 android:text="测试联网下载"
                 android:textColor="#333333" />
+
             <Button
                 android:id="@+id/button7"
                 android:layout_width="match_parent"

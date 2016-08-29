@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/white_radiu_bg_shape"
+        android:elevation="3dp"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+                android:maxLength="14"
+                android:textColor="@color/text_3"
+                android:text="Title"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:textColor="@color/text_3"
+                android:paddingLeft="5dp"
+                android:text="This is content" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
