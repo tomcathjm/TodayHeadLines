@@ -1,8 +1,6 @@
 package com.todayheadlines.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,8 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
 import com.todayheadlines.R;
 import com.todayheadlines.activity.AddTabActivity;
 import com.todayheadlines.base.BaseFragment;
@@ -23,13 +19,11 @@ import com.todayheadlines.fragment.home.SheHui;
 import com.todayheadlines.fragment.home.ShiPin;
 import com.todayheadlines.fragment.home.TouTiaoHao;
 import com.todayheadlines.fragment.home.TuPian;
-import com.todayheadlines.fragment.home.TuiJian;
+import com.todayheadlines.fragment.home.NewsTuiJian;
 import com.todayheadlines.widget.ViewPagerIndicator;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import butterknife.OnClick;
 
 /**
@@ -42,7 +36,6 @@ public class HomeFragment extends BaseFragment {
     private ViewPager viewPager;
     private ViewPagerIndicator vp_indicator;
     private FragmentPagerAdapter adapter;
-    private LinearLayout add;
 
     // 初始 Tab 内容
     private List<String> mTitles = Arrays.asList("推荐", "热点", "北京", "视频", "头条号", "社会", "科技", "汽车", "图片");
@@ -59,7 +52,6 @@ public class HomeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         vp_indicator = (ViewPagerIndicator) view.findViewById(R.id.vp_indicator);
-        add = (LinearLayout) view.findViewById(R.id.add);
 
     }
 
@@ -83,7 +75,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void addFragment() {
-        mContents.add(new TuiJian());
+        mContents.add(new NewsTuiJian());
         mContents.add(new ReDian());
         mContents.add(new BeiJing());
         mContents.add(new ShiPin());

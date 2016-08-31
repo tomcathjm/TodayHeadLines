@@ -2,9 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:hjm="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    android:background="@color/text_red"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -17,7 +15,7 @@
             android:layout_height="40dp"
             android:background="@color/text_red"
             android:orientation="horizontal"
-            hjm:visible_tab_count="5" />
+            hjm:visible_tab_count="6" />
 
         <LinearLayout
             android:id="@+id/add"
@@ -35,6 +33,7 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"

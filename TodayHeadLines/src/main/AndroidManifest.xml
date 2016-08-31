@@ -12,14 +12,17 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name="com.todayheadlines.MainTabActivity">
+        <activity android:name="com.todayheadlines.MainTabActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AddTabActivity" />
+        <activity android:name=".activity.AddTabActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

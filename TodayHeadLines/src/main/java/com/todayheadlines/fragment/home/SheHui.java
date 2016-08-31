@@ -17,6 +17,6 @@ public class SheHui extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.shehui,container,false);
+        return inflater.inflate(R.layout.news_shehui,container,false);
     }
 }

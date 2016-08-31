@@ -17,6 +17,6 @@ public class TuPian extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.tupian,container,false);
+        return inflater.inflate(R.layout.news_,container,false);
     }
 }

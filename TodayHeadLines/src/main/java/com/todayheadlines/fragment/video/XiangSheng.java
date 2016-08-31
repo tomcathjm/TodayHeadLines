@@ -1,4 +1,4 @@
-package com.todayheadlines.fragment.home;
+package com.todayheadlines.fragment.video;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,14 +7,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.todayheadlines.MainTabActivity;
 import com.todayheadlines.R;
-import com.todayheadlines.adapter.TJAdapter;
+import com.todayheadlines.adapter.NewsTJAdapter;
+import com.todayheadlines.adapter.VideoTJAdapter;
 import com.todayheadlines.base.BaseFragment;
 import com.todayheadlines.model.NewsBean;
 import com.todayheadlines.utils.FileCache;
@@ -40,7 +39,7 @@ import butterknife.Bind;
 /**
  * Created by HJM on 2016/8/16.
  */
-public class TuiJian extends BaseFragment {
+public class XiangSheng extends BaseFragment {
 
     public static String URL = "http://www.imooc.com/api/teacher?type=4&num=30";
 
@@ -49,16 +48,16 @@ public class TuiJian extends BaseFragment {
     private JsonLruCache jsonLruCache;
     private FileCache fileCache;
 
-    @Bind(R.id.recyclerview)
+    @Bind(R.id.video_recyclerview)
     RecyclerView recyclrView;
 
-    private TJAdapter adapter;
+    private VideoTJAdapter adapter;
 
     private List<NewsBean> list = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tuijian, container, false);
+        return inflater.inflate(R.layout.video_tuijian, container, false);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class TuiJian extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         recyclrView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new TJAdapter(getActivity(), list);
+        adapter = new VideoTJAdapter(getActivity(), list);
         recyclrView.setAdapter(adapter);
         getData(getActivity());
     }
@@ -77,7 +76,7 @@ public class TuiJian extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SUCCESS:
-                    adapter = new TJAdapter(getActivity(), list);
+                    adapter = new VideoTJAdapter(getActivity(), list);
                     recyclrView.setAdapter(adapter);
                     break;
             }

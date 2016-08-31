@@ -10,4 +10,6 @@
     <color name="text_e5">#E5E5E5</color>
     <color name="white">#FFFFFF</color>
     <color name="bg_color">#f2f8ff</color>
+    <color name="line">#e5e5e5</color>
+    <color name="translater_50">#8000</color>
 </resources>

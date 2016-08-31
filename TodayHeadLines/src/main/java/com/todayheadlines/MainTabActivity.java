@@ -54,7 +54,6 @@ public class MainTabActivity extends AppCompatActivity implements RadioGroup.OnC
             transaction.add(R.id.main_frame, map.get(R.id.home)).commit();
             this.showFragment(id);
         }
-
         radioGroup.setOnCheckedChangeListener(this);
     }
 
