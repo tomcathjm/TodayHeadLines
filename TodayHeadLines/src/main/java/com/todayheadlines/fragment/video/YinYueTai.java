@@ -17,10 +17,6 @@ import com.todayheadlines.model.NewsBean;
 import com.todayheadlines.utils.JsonDataLoader;
 import com.todayheadlines.utils.NetWorkUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +31,7 @@ import butterknife.Bind;
 /**
  * Created by HJM on 2016/8/16.
  */
-public class VideoTuiJian extends BaseFragment {
+public class YinYueTai extends BaseFragment {
 
     public static String URL = "http://www.imooc.com/api/teacher?type=4&num=30";
 
@@ -59,7 +55,7 @@ public class VideoTuiJian extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         list = new ArrayList<>();
         jsonDataLoader = new JsonDataLoader(getActivity());
-        adapter = new VideoTuiJianAdapter(getActivity(), list, VideoTuiJian.this);
+        adapter = new VideoTuiJianAdapter(getActivity(), list, YinYueTai.this);
         listview_video.setAdapter(adapter);
         getData(getActivity());
     }

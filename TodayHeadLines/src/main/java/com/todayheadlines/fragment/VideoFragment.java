@@ -10,22 +10,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.todayheadlines.R;
 import com.todayheadlines.base.BaseFragment;
-import com.todayheadlines.fragment.home.BeiJing;
-import com.todayheadlines.fragment.home.KeJi;
-import com.todayheadlines.fragment.home.QiChe;
-import com.todayheadlines.fragment.home.ReDian;
-import com.todayheadlines.fragment.home.SheHui;
-import com.todayheadlines.fragment.home.ShiPin;
-import com.todayheadlines.fragment.home.TouTiaoHao;
-import com.todayheadlines.fragment.home.TuPian;
-import com.todayheadlines.fragment.home.NewsTuiJian;
 import com.todayheadlines.fragment.video.DouBiJu;
 import com.todayheadlines.fragment.video.KaiYan;
 import com.todayheadlines.fragment.video.KanTianXia;
 import com.todayheadlines.fragment.video.VideoTuiJian;
 import com.todayheadlines.fragment.video.XiangSheng;
 import com.todayheadlines.fragment.video.XiaoPin;
-import com.todayheadlines.fragment.video.YiYueTai;
+import com.todayheadlines.fragment.video.YinYueTai;
 import com.todayheadlines.fragment.video.YouXi;
 import com.todayheadlines.fragment.video.YuanChuan;
 import com.todayheadlines.widget.ViewPagerIndicator;
@@ -40,6 +31,7 @@ public class VideoFragment extends BaseFragment {
 
     // 初始 Tab 内容
     private List<String> mTitles = Arrays.asList("推荐", "逗比剧", "音乐台", "看天下", "相声", "小品", "游戏", "原创", "开眼");
+//    private List<String> mTitles = Arrays.asList("推荐", "逗比剧");
     private ArrayList<Fragment> mContents = new ArrayList<>();
 
     private ViewPager viewPager;
@@ -77,7 +69,7 @@ public class VideoFragment extends BaseFragment {
     private void addFragment() {
         mContents.add(new VideoTuiJian());
         mContents.add(new DouBiJu());
-        mContents.add(new YiYueTai());
+        mContents.add(new YinYueTai());
         mContents.add(new KanTianXia());
         mContents.add(new XiangSheng());
         mContents.add(new XiaoPin());

@@ -39,6 +39,7 @@ public class HomeFragment extends BaseFragment {
 
     // 初始 Tab 内容
     private List<String> mTitles = Arrays.asList("推荐", "热点", "北京", "视频", "头条号", "社会", "科技", "汽车", "图片");
+//    private List<String> mTitles = Arrays.asList("推荐", "热点");
     private ArrayList<Fragment> mContents = new ArrayList<>();
 
 

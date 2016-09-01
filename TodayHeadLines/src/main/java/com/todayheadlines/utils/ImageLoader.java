@@ -2,11 +2,17 @@ package com.todayheadlines.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.util.LruCache;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.todayheadlines.R;
+import com.todayheadlines.adapter.NewsTuiJianAdapter;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -14,55 +20,102 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by HJM on 2016/8/23.
  */
 public class ImageLoader {
 
-    private static ImageLoader imageLoader = null;
-    private static BitmapLruCache mLruCache = new BitmapLruCache();
+    private LruCache<String, Bitmap> mCache;
+    private MyAsyncTask task;
+    private ListView mListView;
+    private Set<MyAsyncTask> mTasks;
 
-    public static ImageLoader getInstance() {
-       BitmapLruCache.getInstance();
-        if (imageLoader == null) {
-            synchronized (ImageLoader.class) {
-                imageLoader = new ImageLoader();
+    public ImageLoader(ListView listView) {
+        mListView = listView;
+        mTasks = new HashSet<>();
+        int maxCache = (int) (Runtime.getRuntime().maxMemory() / 8);
+        mCache = new LruCache<String, Bitmap>(maxCache) {
+            @Override
+            protected int sizeOf(String key, Bitmap value) {
+                return value.getByteCount();
             }
-        }
-        return imageLoader;
+        };
     }
 
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (mImageView.getTag().equals(mUrl)) {
-                mImageView.setImageBitmap((Bitmap) msg.obj);
-                mLruCache.addBitmapToCache(mUrl,(Bitmap) msg.obj);
+    private void addBitmapToCache(String key, Bitmap bitmap) {
+        if (getBitmapFromCache(key) == null) {
+            mCache.put(key, bitmap);
+        }
+    }
+
+    private Bitmap getBitmapFromCache(String key) {
+        if (key != null && !"".equals(key) && mCache != null) {
+            return mCache.get(key);
+        } else {
+            return null;
+        }
+    }
+
+    public void showImageByTask(String url, ImageView imageView) {
+        if (getBitmapFromCache(url) == null) {
+            imageView.setImageResource(R.drawable.icon);
+        } else {
+            imageView.setImageBitmap(getBitmapFromCache(url));
+        }
+    }
+
+    public void loadImage(int start, int end) {
+        for (int i = start; i < end; i++) {
+            String url = NewsTuiJianAdapter.URLS[i];
+            if (getBitmapFromCache(url) == null) {
+                task = new MyAsyncTask(url);
+                task.execute(url);
+                mTasks.add(task);
+            } else {
+                ImageView imageView = (ImageView) mListView.findViewWithTag(url);
+                imageView.setImageBitmap(getBitmapFromCache(url));
+            }
+
+        }
+    }
+
+    public void cancelTask() {
+        if (mTasks != null) {
+            for (MyAsyncTask task:mTasks) {
+                task.cancel(false);
             }
         }
-    };
-    private ImageView mImageView;
-    private String mUrl;
+    }
 
-    public void showImageByThread(final ImageView imageView, final String url) {
-        mImageView = imageView;
-        mUrl = url;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Bitmap bitmap = null;
-                if (mLruCache.getBitmapFromCache(url) == null){
-                    bitmap = getBitmapFromUrl(url);
-                }else{
-                    bitmap = mLruCache.getBitmapFromCache(url);
-                }
-                Message msg = Message.obtain();
-                msg.obj = bitmap;
-                mHandler.sendMessage(msg);
+    private class MyAsyncTask extends AsyncTask<String, Void, Bitmap> {
+        private String url;
+
+        public MyAsyncTask(String url) {
+            this.url = url;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            String url = params[0];
+            Bitmap bitmap = getBitmapFromUrl(url);
+            if (bitmap != null) {
+                addBitmapToCache(url, bitmap);
             }
-        }).start();
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            ImageView imageView = (ImageView) mListView.findViewWithTag(url);
+            if (imageView != null && bitmap != null && imageView.getTag().equals(url)) {
+                imageView.setImageBitmap(bitmap);
+            }
+            mTasks.remove(this);
+        }
     }
 
     public Bitmap getBitmapFromUrl(String urlString) {

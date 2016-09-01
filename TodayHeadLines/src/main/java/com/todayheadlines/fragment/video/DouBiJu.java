@@ -5,25 +5,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.todayheadlines.R;
-import com.todayheadlines.adapter.NewsTJAdapter;
-import com.todayheadlines.adapter.VideoTJAdapter;
+import com.todayheadlines.adapter.VideoTuiJianAdapter;
 import com.todayheadlines.base.BaseFragment;
 import com.todayheadlines.model.NewsBean;
-import com.todayheadlines.utils.FileCache;
-import com.todayheadlines.utils.JsonLruCache;
+import com.todayheadlines.utils.JsonDataLoader;
 import com.todayheadlines.utils.NetWorkUtils;
-import com.todayheadlines.utils.ToastUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,15 +37,13 @@ public class DouBiJu extends BaseFragment {
 
     private final static int SUCCESS = 0;
 
-    private JsonLruCache jsonLruCache;
-    private FileCache fileCache;
+    @Bind(R.id.listview_video)
+    ListView listview_video;
 
-    @Bind(R.id.video_recyclerview)
-    RecyclerView recyclrView;
+    private VideoTuiJianAdapter adapter;
+    private List<NewsBean> list;
 
-    private VideoTJAdapter adapter;
-
-    private List<NewsBean> list = new ArrayList<>();
+    private JsonDataLoader jsonDataLoader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,10 +53,10 @@ public class DouBiJu extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        recyclrView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new VideoTJAdapter(getActivity(), list);
-        recyclrView.setAdapter(adapter);
+        list = new ArrayList<>();
+        jsonDataLoader = new JsonDataLoader(getActivity());
+        adapter = new VideoTuiJianAdapter(getActivity(), list, DouBiJu.this);
+        listview_video.setAdapter(adapter);
         getData(getActivity());
     }
 
@@ -76,116 +66,77 @@ public class DouBiJu extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SUCCESS:
-                    adapter = new VideoTJAdapter(getActivity(), list);
-                    recyclrView.setAdapter(adapter);
+                    adapter.setData(jsonDataLoader.resolveJson((String) msg.obj));
                     break;
             }
         }
     };
 
-    public void getData(Context context) {
-        if (NetWorkUtils.checkNetWorkState(context)) {
-            jsonLruCache = new JsonLruCache();
-            if (jsonLruCache.isExist(URL)) {
-                String jsonFromCache = jsonLruCache.getCacheJson(URL);
-                resolveJson(jsonFromCache);
-                mHandler.sendEmptyMessage(SUCCESS);
-            } else {
-                fileCache = new FileCache(context);
-                String jsonString = fileCache.getJsonCache(URL);
-                if (jsonString != null) {
-                    resolveJson(jsonString);
-                    mHandler.sendEmptyMessage(SUCCESS);
+    public void getData(final Context context) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (NetWorkUtils.checkNetWorkState(context)) {
+                    if (jsonDataLoader != null) {
+                        String jsonFile = jsonDataLoader.getJsonFromLruCache(URL);
+                        if (jsonFile != null && !"".equals(jsonFile)) {
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = SUCCESS;
+                            msg.obj = jsonFile;
+                            mHandler.sendMessage(msg);
+                        } else if (jsonDataLoader.getJsonFromFile(URL) != null) {
+                            Message msg = mHandler.obtainMessage();
+                            msg.what = SUCCESS;
+                            msg.obj = jsonDataLoader.getJsonFromFile(URL);
+                            mHandler.sendMessage(msg);
+                        } else {
+                            new VideoAsyncTask().execute(URL);
+                        }
+                    }
                 } else {
-                    new TJTask().execute(URL);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showMessage("请检查您的网络");
+                        }
+                    });
                 }
             }
-        } else {
-            jsonLruCache = new JsonLruCache();
-            if (jsonLruCache.isExist(URL)) {
-                String jsonFromCache = jsonLruCache.getCacheJson(URL);
-                resolveJson(jsonFromCache);
-                mHandler.sendEmptyMessage(SUCCESS);
-            } else {
-                fileCache = new FileCache(context);
-                String jsonString = fileCache.getJsonCache(URL);
-                if (jsonString != null) {
-                    resolveJson(jsonString);
-                    mHandler.sendEmptyMessage(SUCCESS);
-                } else {
-                    ToastUtils.showNoNet(getActivity(), "请检查您的网络");
-                }
-            }
-        }
+        }).start();
     }
 
-    // 联网 --- 获取数据
-    class TJTask extends AsyncTask<String, Void, String> {
+    class VideoAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
-            return getDataFromInternent(strings[0]);
+            return readStream(strings[0]);
         }
 
         @Override
-        protected void onPostExecute(String string) {
-            super.onPostExecute(string);
-            resolveJson(string);
-            mHandler.sendEmptyMessage(SUCCESS);
+        protected void onPostExecute(String str) {
+            super.onPostExecute(str);
+            adapter.setData(jsonDataLoader.resolveJson(str));
         }
     }
-
-    // 处理数据 --- 缓存到内存、缓存到文件中
-    private String getDataFromInternent(String url) {
-        try {
-            String jsonString = readStream(new URL(url).openStream());
-            jsonLruCache.addJsonCache(url, jsonString);
-            fileCache.saveFile(url, jsonString);
-            return jsonString;
-        } catch (Exception e) {
-        }
-        return null;
-    }
-
-    //    从网络 --- 读取数据
-    private String readStream(InputStream is) {
+    //    从网络 --- 读取数据---String-json
+    private String readStream(final String url) {
+        InputStream is;
         InputStreamReader isr;
         String result = "";
         try {
             String line = null;
+            is = new URL(url).openStream();
             isr = new InputStreamReader(is, "utf-8");
             BufferedReader br = new BufferedReader(isr);
             while ((line = br.readLine()) != null) {
                 result += line;
             }
+            return result;
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            return null;
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
-        return result;
     }
 
-    // 解析 ---- json数据
-    private List<NewsBean> resolveJson(String jsonString) {
-        if (jsonString == null)
-            return null;
-        JSONObject jsonObject;
-        NewsBean newsBean;
-        try {
-            jsonObject = new JSONObject(jsonString);
-            JSONArray jsonArray = jsonObject.getJSONArray("data");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                jsonObject = jsonArray.getJSONObject(i);
-                newsBean = new NewsBean();
-                newsBean.url = jsonObject.getString("picSmall");
-                newsBean.title = jsonObject.getString("name");
-                newsBean.content = jsonObject.getString("description");
-                list.add(newsBean);
-            }
-            return list;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 }

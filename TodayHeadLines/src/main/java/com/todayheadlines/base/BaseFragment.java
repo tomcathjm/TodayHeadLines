@@ -1,15 +1,10 @@
 package com.todayheadlines.base;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
-
 import butterknife.ButterKnife;
 
 /**
@@ -18,9 +13,14 @@ import butterknife.ButterKnife;
 public class BaseFragment extends Fragment{
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this,view);
         super.onViewCreated(view, savedInstanceState);
 
+    }
+    public void showMessage(String message){
+        Toast toast = Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
     }
 }
