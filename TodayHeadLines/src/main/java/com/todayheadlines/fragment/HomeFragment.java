@@ -53,7 +53,7 @@ public class HomeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         vp_indicator = (ViewPagerIndicator) view.findViewById(R.id.vp_indicator);
-
+        addFragment();
     }
 
     @OnClick(R.id.add)
@@ -64,15 +64,10 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        addFragment();
-
         initDatas();
-
         vp_indicator.setTabTitle(mTitles);
         vp_indicator.setViewPager(viewPager, 0);
         viewPager.setAdapter(adapter);
-
     }
 
     private void addFragment() {

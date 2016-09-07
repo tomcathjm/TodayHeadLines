@@ -1,5 +1,6 @@
 package com.todayheadlines.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.todayheadlines.R;
+import com.todayheadlines.activity.AddTabActivity;
 import com.todayheadlines.base.BaseFragment;
 import com.todayheadlines.fragment.video.DouBiJu;
 import com.todayheadlines.fragment.video.KaiYan;
@@ -24,10 +26,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.OnClick;
+
 /**
  * Created by Administrator on 2016/8/5.
  */
 public class VideoFragment extends BaseFragment {
+
+    private final int SEARCH_CODE = 1;
 
     // 初始 Tab 内容
     private List<String> mTitles = Arrays.asList("推荐", "逗比剧", "音乐台", "看天下", "相声", "小品", "游戏", "原创", "开眼");
@@ -53,20 +59,20 @@ public class VideoFragment extends BaseFragment {
         search = (LinearLayout) view.findViewById(R.id.search);
 
         addFragment();
-
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initDatas();
-
         indicator.setTabTitle(mTitles);
         indicator.setViewPager(viewPager, 0);
         viewPager.setAdapter(adapter);
     }
-
+    @OnClick(R.id.search)
+    void add() {
+        startActivityForResult(new Intent(getActivity(), AddTabActivity.class),SEARCH_CODE);
+    }
     private void addFragment() {
         mContents.add(new VideoTuiJian());
         mContents.add(new DouBiJu());

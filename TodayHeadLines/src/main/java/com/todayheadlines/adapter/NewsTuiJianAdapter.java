@@ -1,6 +1,9 @@
 package com.todayheadlines.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 
 import com.todayheadlines.R;
 import com.todayheadlines.model.NewsBean;
+import com.todayheadlines.utils.DatabaseHelper;
 import com.todayheadlines.utils.ImageLoader;
 
 import java.util.List;
@@ -21,6 +25,8 @@ import java.util.List;
  * Created by HJM on 2016/9/1.
  */
 public class NewsTuiJianAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
+
+    private Context mContext;
     private LayoutInflater mInflater;
     private List<NewsBean> mList;
     private ImageLoader mImageLoader;
@@ -34,6 +40,7 @@ public class NewsTuiJianAdapter extends BaseAdapter implements AbsListView.OnScr
         this.mInflater = LayoutInflater.from(mContext);
         this.mList = list;
         mImageLoader = new ImageLoader(listView);
+        this.mContext = mContext;
 
         listView.setOnScrollListener(this);
         mFirstIn = true;
@@ -82,7 +89,47 @@ public class NewsTuiJianAdapter extends BaseAdapter implements AbsListView.OnScr
         holder.icon.setImageResource(R.drawable.icon);
         holder.icon.setTag(newsBean.url);
         mImageLoader.showImageByTask(newsBean.url, holder.icon);
+
+        getDBData(holder.title,newsBean.title);
+
         return convertView;
+    }
+
+    private DatabaseHelper dbh;
+    private SQLiteDatabase db;
+    private Cursor cs;
+    public void getDBData(TextView textView,String title){
+        //查询数据库中的点击记录
+        if(dbh != null){
+            db = dbh.getReadableDatabase();
+        }else{
+            dbh = new DatabaseHelper(mContext);
+            db = dbh.getReadableDatabase();
+        }
+        String sql = "select * from mark ORDER BY item DESC";
+        try{
+            cs = db.rawQuery(sql,null);
+            while (cs.moveToNext()){
+                if (!"".equals(cs.getColumnIndex("item"))){
+                    String mark_str = cs.getString(cs.getColumnIndex("item"));
+                    if (mark_str != null && !"".equals(mark_str)){
+                        if (mark_str.equals(title)){
+                            textView.setTextColor(Color.parseColor("#BBBBBB"));
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+
+        }finally {
+            if (cs != null){
+                cs.close();
+                cs = null;
+            }
+            if (db != null){
+                db.close();
+            }
+        }
     }
 
     @Override

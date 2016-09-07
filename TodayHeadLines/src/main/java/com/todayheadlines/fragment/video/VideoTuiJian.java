@@ -15,6 +15,8 @@ import com.todayheadlines.base.BaseFragment;
 import com.todayheadlines.model.NewsBean;
 import com.todayheadlines.utils.JsonDataLoader;
 import com.todayheadlines.utils.NetWorkUtils;
+import com.zl.reik.dilatingdotsprogressbar.DilatingDotsProgressBar;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,12 +33,14 @@ import butterknife.Bind;
  */
 public class VideoTuiJian extends BaseFragment {
 
-    public static String URL = "http://www.imooc.com/api/teacher?type=4&num=30";
+    public static String URL = "http://www.imooc.com/api/teacher?type=4&num=25";
 
     private final static int SUCCESS = 0;
 
     @Bind(R.id.listview_video)
     ListView listview_video;
+    @Bind(R.id.progress)
+    DilatingDotsProgressBar progress;
 
     private VideoTuiJianAdapter adapter;
     private List<NewsBean> list;
@@ -51,11 +55,21 @@ public class VideoTuiJian extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progress.showNow();
+
         list = new ArrayList<>();
         jsonDataLoader = new JsonDataLoader(getActivity());
         adapter = new VideoTuiJianAdapter(getActivity(), list, VideoTuiJian.this);
         listview_video.setAdapter(adapter);
         getData(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        if (progress != null)
+        progress.hide();
+        progress = null;
+        super.onPause();
     }
 
     Handler mHandler = new Handler() {
@@ -64,6 +78,8 @@ public class VideoTuiJian extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SUCCESS:
+                    showMessage("隐藏进度条");
+                    progress.hideNow();
                     adapter.setData(jsonDataLoader.resolveJson((String) msg.obj));
                     break;
             }
@@ -112,6 +128,7 @@ public class VideoTuiJian extends BaseFragment {
         @Override
         protected void onPostExecute(String str) {
             super.onPostExecute(str);
+            progress.hideNow();
             adapter.setData(jsonDataLoader.resolveJson(str));
         }
     }
