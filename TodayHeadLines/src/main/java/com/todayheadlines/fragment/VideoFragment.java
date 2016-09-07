@@ -51,13 +51,14 @@ public class VideoFragment extends BaseFragment {
         viewPager = (ViewPager) view.findViewById(R.id.vp);
         indicator = (ViewPagerIndicator) view.findViewById(R.id.indicator);
         search = (LinearLayout) view.findViewById(R.id.search);
+
+        addFragment();
+
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        addFragment();
 
         initDatas();
 

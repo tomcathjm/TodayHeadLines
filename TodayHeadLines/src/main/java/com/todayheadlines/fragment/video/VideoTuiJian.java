@@ -9,18 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.todayheadlines.R;
 import com.todayheadlines.adapter.VideoTuiJianAdapter;
 import com.todayheadlines.base.BaseFragment;
 import com.todayheadlines.model.NewsBean;
 import com.todayheadlines.utils.JsonDataLoader;
 import com.todayheadlines.utils.NetWorkUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

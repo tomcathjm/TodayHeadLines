@@ -1,1 +1,1 @@
-include ':NewNBA', ':demo', ':TodayHeadLines'
+include ':TodayHeadLines'

@@ -13,4 +13,8 @@
         <item name="android:paddingTop">6dp</item>
     </style>
 
+    <style name="MyAppStyle" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>

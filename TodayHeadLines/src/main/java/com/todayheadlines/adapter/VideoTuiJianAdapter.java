@@ -1,23 +1,28 @@
 package com.todayheadlines.adapter;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.todayheadlines.R;
 import com.todayheadlines.model.NewsBean;
-
+import com.todayheadlines.widget.MyVideoView;
+import java.io.File;
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by HJM on 2016/9/1.
@@ -27,11 +32,14 @@ public class VideoTuiJianAdapter extends BaseAdapter {
     private List<NewsBean> mList;
     private LayoutInflater mInflater;
     private Fragment fragment;
+    private Context mContext;
 
     public VideoTuiJianAdapter(Context context, List<NewsBean> list, Fragment fragment) {
+        this.mContext = context;
         this.mList = list;
         this.fragment = fragment;
         mInflater = LayoutInflater.from(context);
+        dataPath = mContext.getCacheDir().getPath();
     }
 
     public void setData(List<NewsBean> list) {
@@ -56,18 +64,13 @@ public class VideoTuiJianAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.video_item_layout, viewGroup, false);
             convertView.setTag(holder);
 
-            holder.play_up = (RelativeLayout) convertView.findViewById(R.id.play_up);
-
-            holder.title = (TextView) convertView.findViewById(R.id.title);
-            holder.iv_bg = (ImageView) convertView.findViewById(R.id.iv_bg);
-            holder.waittingdialog = (ProgressBar) convertView.findViewById(R.id.waittingdialog);
-            holder.play = (CircleImageView) convertView.findViewById(R.id.play);
+            holder.videoview = (JCVideoPlayerStandard) convertView.findViewById(R.id.viedoview);
             holder.time = (TextView) convertView.findViewById(R.id.time);
 
             holder.play_down = (RelativeLayout) convertView.findViewById(R.id.play_down);
@@ -82,25 +85,38 @@ public class VideoTuiJianAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         NewsBean newsBean = mList.get(position);
-        holder.title.setText(newsBean.title);
 
-        Glide.with(fragment).load(newsBean.url).crossFade().placeholder(R.drawable.icon).into(holder.iv_bg);
+        Glide.with(fragment).load(newsBean.url).crossFade().placeholder(R.drawable.icon).into(holder.usericon);
+
+        String path = getStorageDirectory();
+        final File file = new File(path);
+
+        holder.videoview.setUp(file.exists() ? file.getPath():""
+                , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, newsBean.title);
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView title;
-        RelativeLayout play_up;
+        JCVideoPlayerStandard videoview;
         RelativeLayout play_down;
-        ImageView iv_bg;
-        CircleImageView play;
         TextView time;
         CircleImageView usericon;
         TextView username;
         TextView play_time;
         TextView comment;
         TextView share;
-        ProgressBar waittingdialog;
     }
+
+
+   //获取本地视频路径
+    private String getStorageDirectory() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ? sdPath + FILE_NAME : dataPath + FILE_NAME;
+    }
+    // sdCard  路径
+    private String sdPath = Environment.getExternalStorageDirectory().getPath();
+    // 手机储存路径
+    private String dataPath = null;
+    // 文件名
+    private String FILE_NAME = "/video/1.mp4";
 }

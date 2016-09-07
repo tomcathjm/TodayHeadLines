@@ -6,46 +6,14 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/play_up"
         android:layout_width="match_parent"
         android:layout_height="150dp">
 
-        <!--<SurfaceView-->
-            <!--android:id="@+id/surface"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="170dp" />-->
-
-        <ImageView
-            android:id="@+id/iv_bg"
+        <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+            android:id="@+id/viedoview"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/android" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:padding="10dp"
-            android:text="这是视频标题，可能会有很多个字来表示这是视频的展示标题呢"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/play"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@android:drawable/ic_media_play" />
-        <ProgressBar
-            android:id="@+id/waittingdialog"
-            android:visibility="gone"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:background="@color/white"
+            android:layout_height="170dp" />
 
         <TextView
             android:id="@+id/time"

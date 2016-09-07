@@ -1,14 +1,21 @@
 package com.todayheadlines.fragment.home;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.MediaController;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.todayheadlines.R;
 import com.todayheadlines.adapter.NewsTuiJianAdapter;
@@ -16,122 +23,89 @@ import com.todayheadlines.base.BaseFragment;
 import com.todayheadlines.model.NewsBean;
 import com.todayheadlines.utils.JsonDataLoader;
 import com.todayheadlines.utils.NetWorkUtils;
+import com.todayheadlines.widget.MyVideoView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by HJM on 2016/8/16.
  */
 public class ReDian extends BaseFragment {
 
-    public static String URL = "http://www.imooc.com/api/teacher?type=4&num=30";
-    private final static int SUCCESS = 0;
-
-    private JsonDataLoader jsonDataLoader;
-    private NewsTuiJianAdapter adapter;
-    private List<NewsBean> list;
-
-    @Bind(R.id.listview)
-    ListView listView;
+    @Bind(R.id.videoview)
+    MyVideoView videoView;
+    @Bind(R.id.play)
+    Button play;
+    @Bind(R.id.stop)
+    Button stop;
+    @Bind(R.id.go_play)
+    Button go_play;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.news_tuijian, container, false);
+        return inflater.inflate(R.layout.news_redian, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        list = new ArrayList<>();
-        jsonDataLoader = new JsonDataLoader(getActivity());
-        adapter = new NewsTuiJianAdapter(getActivity(), list, listView);
-        listView.setAdapter(adapter);
-        getData(getActivity());
-    }
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case SUCCESS:
-                    adapter.setData(jsonDataLoader.resolveJson((String) msg.obj));
-                    break;
-            }
-        }
-    };
 
-    public void getData(final Context context) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (NetWorkUtils.checkNetWorkState(context)) {
-                    if (jsonDataLoader != null) {
-                        String jsonFile = jsonDataLoader.getJsonFromLruCache(URL);
-                        if (jsonFile != null && !"".equals(jsonFile)) {
-                            Message msg = mHandler.obtainMessage();
-                            msg.what = SUCCESS;
-                            msg.obj = jsonFile;
-                            mHandler.sendMessage(msg);
-                        } else if (jsonDataLoader.getJsonFromFile(URL) != null) {
-                            Message msg = mHandler.obtainMessage();
-                            msg.what = SUCCESS;
-                            msg.obj = jsonDataLoader.getJsonFromFile(URL);
-                            mHandler.sendMessage(msg);
-                        } else {
-                            new NewsAsynckTask().execute(URL);
-                        }
-                    }
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            showMessage("请检查您的网络");
-                        }
-                    });
+    }
+
+    @OnClick(R.id.play)
+    void play() {
+        playVideo(videoView);
+        videoView.start();
+    }
+    @OnClick(R.id.stop)
+    void stop() {
+        videoView.stopPlayback();
+    }
+
+    private void playVideo(final VideoView video) {
+        dataPath = getActivity().getCacheDir().getPath();
+        String path = getStorageDirectory();
+        final File file = new File(path);
+        final MediaController mc = new MediaController(getActivity());       // 创建一个MediaController对象
+        if (file.exists()) {
+            video.setVideoPath(path);
+//            video.setVideoURI(Uri.parse("http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8"));
+            video.setMediaController(mc);       // 将VideoView与MediaController关联起来
+            video.requestFocus();       // 设置VideoView获取焦点
+
+            // 设置VideoView的Completion事件监听器
+            video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    Toast.makeText(getActivity(), "播放完毕", Toast.LENGTH_SHORT).show();
                 }
-            }
-        }).start();
+            });
+        } else {
+            Toast.makeText(getActivity(), "要播放的视频文件不存在", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    class NewsAsynckTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            return readStream(strings[0]);
-        }
+    //获取缓存目录
+    private String getStorageDirectory() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ? sdPath + FILE_NAME : dataPath + FILE_NAME;
+    }
 
-        @Override
-        protected void onPostExecute(String str) {
-            super.onPostExecute(str);
-            adapter.setData(jsonDataLoader.resolveJson(str));
-        }
-    }
-    //    从网络 --- 读取数据---String-json
-    public String readStream(final String url) {
-        InputStream is;
-        InputStreamReader isr;
-        String result = "";
-        try {
-            String line = null;
-            is = new URL(url).openStream();
-            isr = new InputStreamReader(is, "utf-8");
-            BufferedReader br = new BufferedReader(isr);
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            return result;
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        } catch (IOException e) {
-            return null;
-        }
-    }
+    // sdCard  根路径
+    private String sdPath = Environment.getExternalStorageDirectory().getPath();
+    // 手机内存 根路径
+    private String dataPath = null;
+    // 缓存文件根目录
+    private String FILE_NAME = "/video/1.mp4";
 }
