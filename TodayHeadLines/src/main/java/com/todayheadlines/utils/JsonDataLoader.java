@@ -2,6 +2,7 @@ package com.todayheadlines.utils;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 import android.util.LruCache;
 
 import com.todayheadlines.model.NewsBean;
@@ -54,7 +55,7 @@ public class JsonDataLoader {
 
     //保存数据 有sd卡存sd卡，否则存在手机内存中
     public void saveJsonToFile(String key, String json) {
-        if (key != null && json != null && getJsonFromFile(key) != null) {
+        if (key != null && json != null && getJsonFromFile(key) == null) {
             try {
                 String path = getStorageDirectory() + File.separator;
                 File file = new File(path);
@@ -99,7 +100,7 @@ public class JsonDataLoader {
     }
 
     public void addJsonToLruCache(String key, String json) {
-        if (mCache != null && getJsonFromLruCache(key) != null && json != null) {
+        if (mCache != null && getJsonFromLruCache(key) == null && json != null) {
             mCache.put(key, json);
         }
     }

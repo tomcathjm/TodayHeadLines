@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,9 +105,13 @@ public class NewsTuiJian extends BaseFragment {
     }
 
     class NewsAsynckTask extends AsyncTask<String, Void, String> {
+        String jsonStr;
         @Override
         protected String doInBackground(String... strings) {
-            return readStream(strings[0]);
+            jsonStr = readStream(strings[0]);
+            jsonDataLoader.saveJsonToFile(strings[0],jsonStr);
+            jsonDataLoader.addJsonToLruCache(strings[0],jsonStr);
+            return jsonStr;
         }
 
         @Override

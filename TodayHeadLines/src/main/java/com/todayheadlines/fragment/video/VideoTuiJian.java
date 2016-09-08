@@ -78,7 +78,6 @@ public class VideoTuiJian extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SUCCESS:
-                    showMessage("隐藏进度条");
                     progress.hideNow();
                     adapter.setData(jsonDataLoader.resolveJson((String) msg.obj));
                     break;
@@ -121,14 +120,18 @@ public class VideoTuiJian extends BaseFragment {
     }
 
     class VideoAsyncTask extends AsyncTask<String, Void, String> {
+        String url;
         @Override
         protected String doInBackground(String... strings) {
+            url = strings[0];
             return readStream(strings[0]);
         }
 
         @Override
         protected void onPostExecute(String str) {
             super.onPostExecute(str);
+            jsonDataLoader.saveJsonToFile(url,str);
+            jsonDataLoader.addJsonToLruCache(url,str);
             progress.hideNow();
             adapter.setData(jsonDataLoader.resolveJson(str));
         }
