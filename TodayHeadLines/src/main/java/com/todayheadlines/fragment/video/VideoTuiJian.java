@@ -111,6 +111,7 @@ public class VideoTuiJian extends BaseFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            progress.hideNow();
                             showMessage("请检查您的网络");
                         }
                     });
