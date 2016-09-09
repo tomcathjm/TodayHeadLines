@@ -16,7 +16,6 @@ public class BaseFragment extends Fragment{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this,view);
         super.onViewCreated(view, savedInstanceState);
-
     }
     public void showMessage(String message){
         Toast toast = Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT);

@@ -9,8 +9,6 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="@drawable/white_radiu_bg_shape"
-        android:elevation="3dp"
         android:padding="8dp">
 
         <ImageView

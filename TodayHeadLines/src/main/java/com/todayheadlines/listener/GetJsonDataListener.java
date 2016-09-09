@@ -5,5 +5,5 @@ package com.todayheadlines.listener;
  */
 public interface GetJsonDataListener {
     void success(String json);
-    void fail(String message);
+    void error(String message);
 }

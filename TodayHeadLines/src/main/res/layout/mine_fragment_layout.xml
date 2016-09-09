@@ -11,7 +11,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="@drawable/android"
+            android:background="@drawable/kobi"
             android:orientation="vertical">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/face"
@@ -19,7 +19,7 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="50dp"
-                android:src="@drawable/icon"
+                android:src="@drawable/kobi"
                 hjm:civ_border_color="@color/white"
                 hjm:civ_border_width="2dp" />
 
@@ -48,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="10dp"
+                android:padding="8dp"
+                android:drawableTop="@drawable/conllection"
                 android:text="收藏"
                 android:textColor="@color/text_3"
                 android:textSize="16sp" />
@@ -59,6 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:padding="8dp"
+                android:drawableTop="@drawable/pattern"
                 android:text="夜间"
                 android:textColor="@color/text_3"
                 android:textSize="16sp" />
@@ -70,6 +73,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="设置"
+                android:padding="8dp"
+                android:drawableTop="@drawable/setting"
                 android:textColor="@color/text_3"
                 android:textSize="16sp" />
         </LinearLayout>

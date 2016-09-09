@@ -1,17 +1,14 @@
 package com.todayheadlines;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.todayheadlines.base.BaseFragmentActivity;
+import com.todayheadlines.base.BaseActivity;
 import com.todayheadlines.fragment.FollowFragment;
 import com.todayheadlines.fragment.HomeFragment;
 import com.todayheadlines.fragment.MineFragment;
@@ -26,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by hjm on 2016/8/5.
  */
-public class MainTabActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+public class MainTabActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
 
     @Bind(R.id.radio)
     RadioGroup radioGroup;
