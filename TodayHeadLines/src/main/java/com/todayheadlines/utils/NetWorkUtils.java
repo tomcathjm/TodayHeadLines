@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by HJM on 2016/8/29.
+ * Created by HJM on splash/8/29.
  */
 public class NetWorkUtils {
     public static boolean checkNetWorkState(Context mContext){

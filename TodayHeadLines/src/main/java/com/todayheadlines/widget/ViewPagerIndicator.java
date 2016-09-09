@@ -20,7 +20,7 @@ import com.todayheadlines.R;
 import java.util.List;
 
 /**
- * Created by Beggar on 2016/7/25.
+ * Created by Beggar on splash/7/25.
  */
 public class ViewPagerIndicator extends LinearLayout {
 

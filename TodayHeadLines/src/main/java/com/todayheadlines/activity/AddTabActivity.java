@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2016/8/16.
+ * Created by Administrator on splash/8/16.
  */
 public class AddTabActivity extends BaseActivity {
     @Bind(R.id.mychannel)

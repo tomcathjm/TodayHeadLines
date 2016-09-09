@@ -40,7 +40,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * Created by HJM on 2016/8/16.
+ * Created by HJM on splash/8/16.
  */
 public class ReDian extends BaseFragment {
 

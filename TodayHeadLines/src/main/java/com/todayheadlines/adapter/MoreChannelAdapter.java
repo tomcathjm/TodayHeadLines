@@ -12,7 +12,7 @@ import com.todayheadlines.R;
 import java.util.ArrayList;
 
 /**
- * Created by HJM on 2016/9/9.
+ * Created by HJM on splash/9/9.
  */
 public class MoreChannelAdapter extends RecyclerView.Adapter<MoreChannelAdapter.ChannelViewHolder> {
     private ArrayList<String> mList;

@@ -31,7 +31,7 @@ import java.util.List;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2016/8/5.
+ * Created by Administrator on splash/8/5.
  */
 public class VideoFragment extends BaseFragment {
 

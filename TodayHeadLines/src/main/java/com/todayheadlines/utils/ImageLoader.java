@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by HJM on 2016/8/23.
+ * Created by HJM on splash/8/23.
  */
 public class ImageLoader {
 

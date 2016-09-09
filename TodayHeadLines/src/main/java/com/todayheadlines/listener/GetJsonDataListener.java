@@ -1,7 +1,7 @@
 package com.todayheadlines.listener;
 
 /**
- * Created by HJM on 2016/9/1.
+ * Created by HJM on splash/9/1.
  */
 public interface GetJsonDataListener {
     void success(String json);

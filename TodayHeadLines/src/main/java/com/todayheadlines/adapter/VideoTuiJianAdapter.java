@@ -25,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
- * Created by HJM on 2016/9/1.
+ * Created by HJM on splash/9/1.
  */
 public class VideoTuiJianAdapter extends BaseAdapter {
 

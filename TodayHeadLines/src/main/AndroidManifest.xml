@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:hardwareAccelerated="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="com.todayheadlines.MainTabActivity"
+        <activity android:name="com.todayheadlines.activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AddTabActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.todayheadlines.MainTabActivity"
             android:screenOrientation="portrait"/>
     </application>
 

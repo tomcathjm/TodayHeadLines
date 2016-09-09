@@ -21,7 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by hjm on 2016/8/5.
+ * Created by hjm on splash/8/5.
  */
 public class MainTabActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
 
@@ -40,7 +40,7 @@ public class MainTabActivity extends BaseActivity implements RadioGroup.OnChecke
     private FragmentTransaction transaction;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maintab_activiy_layout);
         ButterKnife.bind(this);

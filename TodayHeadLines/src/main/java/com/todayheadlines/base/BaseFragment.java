@@ -8,7 +8,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/8/5.
+ * Created by Administrator on splash/8/5.
  */
 public class BaseFragment extends Fragment{
 

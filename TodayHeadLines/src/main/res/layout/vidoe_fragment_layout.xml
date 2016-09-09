@@ -3,7 +3,6 @@
     xmlns:hjm="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/translater_50"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -14,7 +13,6 @@
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/text_red"
             android:orientation="horizontal"
             hjm:visible_tab_count="6" />
 

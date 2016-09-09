@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.VideoView;
 
 /**
- * Created by HJM on 2016/9/2.
+ * Created by HJM on splash/9/2.
  */
 public class MyVideoView extends VideoView {
     public MyVideoView(Context context) {

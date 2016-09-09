@@ -10,7 +10,7 @@ import com.todayheadlines.R;
 import com.todayheadlines.base.BaseFragment;
 
 /**
- * Created by Administrator on 2016/8/5.
+ * Created by Administrator on splash/8/5.
  */
 public class FollowFragment extends BaseFragment {
 

@@ -29,7 +29,7 @@ import java.util.List;
 import butterknife.Bind;
 
 /**
- * Created by HJM on 2016/8/16.
+ * Created by HJM on splash/8/16.
  */
 public class VideoTuiJian extends BaseFragment {
 
