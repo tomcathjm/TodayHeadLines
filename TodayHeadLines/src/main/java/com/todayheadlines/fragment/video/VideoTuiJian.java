@@ -12,8 +12,6 @@ import android.widget.ListView;
 import com.todayheadlines.R;
 import com.todayheadlines.adapter.VideoTuiJianAdapter;
 import com.todayheadlines.base.BaseFragment;
-import com.todayheadlines.model.NewsBean;
-import com.todayheadlines.utils.JsonDataLoader;
 import com.todayheadlines.utils.NetWorkUtils;
 import com.zl.reik.dilatingdotsprogressbar.DilatingDotsProgressBar;
 

@@ -36,7 +36,7 @@ public class MainTabActivity extends BaseActivity implements RadioGroup.OnChecke
     @Bind(R.id.mine)
     RadioButton mine;
 
-    HashMap<Integer, Fragment> map = new HashMap<Integer, Fragment>();
+    HashMap<Integer, Fragment> map = new HashMap();
     private FragmentTransaction transaction;
 
     @Override

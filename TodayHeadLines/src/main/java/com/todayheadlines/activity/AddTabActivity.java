@@ -36,11 +36,15 @@ public class AddTabActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_tab);
         ButterKnife.bind(this);
+
         initData();
+
         GridLayoutManager my_gm = new GridLayoutManager(this, 4);
         more_recyclerview.setLayoutManager(my_gm);
+
         GridLayoutManager more_gm = new GridLayoutManager(this, 4);
         my_recyclerview.setLayoutManager(more_gm);
+
         final MyChannelAdapter my_adapter = new MyChannelAdapter(this, myList);
         final MoreChannelAdapter more_adapter = new MoreChannelAdapter(this, moreList);
 

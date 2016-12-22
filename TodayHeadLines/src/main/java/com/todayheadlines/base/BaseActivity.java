@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 /**
- * Created by Administrator on splash/8/5.
+ * Created by hjm on splash/8/5.
  */
 public class BaseActivity extends AppCompatActivity {
     @Override

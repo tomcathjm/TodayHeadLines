@@ -1,33 +1,22 @@
 package com.todayheadlines.fragment.home;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.jdsjlzx.view.CommonFooter;
 import com.todayheadlines.R;
+import com.todayheadlines.adapter.MyChannelAdapter;
 import com.todayheadlines.adapter.NewsTuiJianAdapter;
 import com.todayheadlines.base.BaseFragment;
-import com.todayheadlines.model.NewsBean;
-import com.todayheadlines.utils.JsonDataLoader;
-import com.todayheadlines.utils.NetWorkUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import butterknife.Bind;
 
 /**
@@ -36,14 +25,15 @@ import butterknife.Bind;
 public class NewsTuiJian extends BaseFragment {
 
     public static String URL = "http://www.imooc.com/api/teacher?type=4&num=30";
-    private final static int SUCCESS = 0;
 
-    private JsonDataLoader jsonDataLoader;
     private NewsTuiJianAdapter adapter;
-    private List<NewsBean> list;
 
     @Bind(R.id.listview)
     ListView listView;
+
+
+    @Bind(R.id.lRecyclerView)
+    LRecyclerView mLRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,91 +43,28 @@ public class NewsTuiJian extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        list = new ArrayList<>();
-        jsonDataLoader = new JsonDataLoader(getActivity());
-        adapter = new NewsTuiJianAdapter(getActivity(), list, listView);
-        listView.setAdapter(adapter);
-        getData(getActivity());
-    }
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case SUCCESS:
-                    adapter.setData(jsonDataLoader.resolveJson((String) msg.obj));
-                    break;
-            }
-        }
-    };
+//        adapter = new NewsTuiJianAdapter(getActivity(), list, listView);
 
-    public void getData(final Context context) {
-        new Thread(new Runnable() {
+        final LRecyclerViewAdapter mAdapter = new LRecyclerViewAdapter(new MyChannelAdapter(getActivity(), null));
+        mLRecyclerView.setAdapter(mAdapter);
+        mLRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mAdapter.addFooterView(new CommonFooter(getActivity(), R.layout.add_tab));
+
+        mLRecyclerView.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void run() {
-                if (NetWorkUtils.checkNetWorkState(context)) {
-                    if (jsonDataLoader != null) {
-                        String jsonFile = jsonDataLoader.getJsonFromLruCache(URL);
-                        if (jsonFile != null && !"".equals(jsonFile)) {
-                            Message msg = mHandler.obtainMessage();
-                            msg.what = SUCCESS;
-                            msg.obj = jsonFile;
-                            mHandler.sendMessage(msg);
-                        } else if (jsonDataLoader.getJsonFromFile(URL) != null) {
-                            Message msg = mHandler.obtainMessage();
-                            msg.what = SUCCESS;
-                            msg.obj = jsonDataLoader.getJsonFromFile(URL);
-                            mHandler.sendMessage(msg);
-                        } else {
-                            new NewsAsynckTask().execute(URL);
-                        }
-                    }
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            showMessage("请检查您的网络");
-                        }
-                    });
-                }
+            public void onRefresh() {
+                mLRecyclerView.refreshComplete();
+                showMessage("下拉刷新操作");
             }
-        }).start();
-    }
-
-    class NewsAsynckTask extends AsyncTask<String, Void, String> {
-        String jsonStr;
-        @Override
-        protected String doInBackground(String... strings) {
-            jsonStr = readStream(strings[0]);
-            jsonDataLoader.saveJsonToFile(strings[0],jsonStr);
-            jsonDataLoader.addJsonToLruCache(strings[0],jsonStr);
-            return jsonStr;
-        }
-
-        @Override
-        protected void onPostExecute(String str) {
-            super.onPostExecute(str);
-            adapter.setData(jsonDataLoader.resolveJson(str));
-        }
-    }
-    //    从网络 --- 读取数据---String-json
-    public String readStream(final String url) {
-        InputStream is;
-        InputStreamReader isr;
-        String result = "";
-        try {
-            String line = null;
-            is = new URL(url).openStream();
-            isr = new InputStreamReader(is, "utf-8");
-            BufferedReader br = new BufferedReader(isr);
-            while ((line = br.readLine()) != null) {
-                result += line;
+        });
+        mLRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                mAdapter.notifyDataSetChanged();
+                showMessage("上啦加载操作");
             }
-            return result;
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        } catch (IOException e) {
-            return null;
-        }
+        });
+
     }
 }

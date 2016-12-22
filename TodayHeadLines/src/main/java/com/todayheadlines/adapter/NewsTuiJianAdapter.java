@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.todayheadlines.R;
-import com.todayheadlines.model.NewsBean;
 import com.todayheadlines.utils.DatabaseHelper;
-import com.todayheadlines.utils.ImageLoader;
 
 import java.util.List;
 

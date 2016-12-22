@@ -1,7 +1,5 @@
 package com.todayheadlines.fragment;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +8,7 @@ import com.todayheadlines.R;
 import com.todayheadlines.base.BaseFragment;
 
 /**
- * Created by Administrator on splash/8/5.
+ * Created by Administrator on splash/8/5
  */
 public class FollowFragment extends BaseFragment {
 

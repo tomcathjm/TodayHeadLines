@@ -1,24 +1,18 @@
 package com.todayheadlines.adapter;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.MediaController;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
+
 import com.bumptech.glide.Glide;
 import com.todayheadlines.R;
-import com.todayheadlines.model.NewsBean;
-import com.todayheadlines.widget.MyVideoView;
+
 import java.io.File;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;

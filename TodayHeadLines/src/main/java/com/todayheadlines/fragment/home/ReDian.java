@@ -1,40 +1,21 @@
 package com.todayheadlines.fragment.home;
 
-import android.content.Context;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.todayheadlines.R;
-import com.todayheadlines.adapter.NewsTuiJianAdapter;
 import com.todayheadlines.base.BaseFragment;
-import com.todayheadlines.model.NewsBean;
-import com.todayheadlines.utils.JsonDataLoader;
-import com.todayheadlines.utils.NetWorkUtils;
 import com.todayheadlines.widget.MyVideoView;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
